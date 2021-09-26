@@ -23,15 +23,14 @@ folder_path = 'compare_pics'
 
 def are_similar_hashes(hash_one, hash_two):
     # return hash_one == hash_two
-    return abs(hash_one - hash_two) < 10
+    return abs(hash_one - hash_two) <= 20
 
 
 def are_similar_hists(histogram_a, histogram_b):
     r = cv2.compareHist(histogram_a, histogram_b, cv2.HISTCMP_BHATTACHARYYA)
     # print(r)
     # print(r < -100)
-    return r < 0.1
-    # return False
+    return r <= 0.1
 
 
 def get_imagehash(pic):
