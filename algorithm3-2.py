@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 import time
 
-# SIFA algorithm
+# SIFT algorithm
 # Add phash or histogram for faster time
 
 sift = cv2.SIFT_create()
@@ -94,14 +94,14 @@ if __name__ == '__main__':
     fill_time_sum = 0
 
     # pics = pics[:50]
-    # pics = pics[:15]
+    # pics = pics[:30]
     for pic_a in pics:
         for pic_b in pics:
             category_a = pic_a.split("_")[0]
             category_b = pic_b.split("_")[0]
             are_same = category_a == category_b
 
-            print('compare ' + pic_a + ' and ' + pic_b)
+            # print('compare ' + pic_a + ' and ' + pic_b)
 
             start = time.time()
 
@@ -126,7 +126,7 @@ if __name__ == '__main__':
             found_same = False
 
             hash_diff = abs(hashes[pic_a] - hashes[pic_b])
-            print('hash_diff:', hash_diff)
+            # print('hash_diff:', hash_diff)
             if hash_diff < 35:
                 # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
                 good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
@@ -135,7 +135,13 @@ if __name__ == '__main__':
             end = time.time()
             compare_time_sum += end - start
 
-            print("good points:", good_points_number)
+            if are_same != found_same:
+                print('compare ' + pic_a + ' and ' + pic_b)
+                print('result, are they same?', found_same)
+                print('hash_diff:', hash_diff)
+                print("good points:", good_points_number)
+
+            # print("good points:", good_points_number)
 
             # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
 
