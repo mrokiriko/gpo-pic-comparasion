@@ -95,15 +95,14 @@ if __name__ == '__main__':
 
     # pics = pics[:50]
     # pics = pics[:30]
-    pics = pics[-30:]
-    # pics = pics[:20] + pics[-20:]
-    # pics = pics[:30]
+    # pics = pics[-10:]
     for pic_a in pics:
         for pic_b in pics:
             category_a = pic_a.split("_")[0]
             category_b = pic_b.split("_")[0]
             are_same = category_a == category_b
 
+            # print('BEGIN compare ' + pic_a + ' and ' + pic_b)
 
             start = time.time()
 
@@ -127,26 +126,16 @@ if __name__ == '__main__':
             start = time.time()
             found_same = False
             good_points_number = '-'
+            # hash_diff = '-'
             hash_diff = abs(hashes[pic_a] - hashes[pic_b])
-
-
             # # print('hash_diff:', hash_diff)
-            # if hash_diff < 10:
-            #     found_same = True
-            # else:
-
-            # if hash_diff >= 40:
-            #     found_same = False
+            if hash_diff > 40:
+                found_same = False
+            else:
+                good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
+                found_same = good_points_number > MATCHES_THRESHOLD
 
             # if hash_diff < 35:
-            # el
-            good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
-
-
-            found_same = good_points_number > MATCHES_THRESHOLD
-            if found_same and hash_diff >= 35:
-                found_same = False
-
                 # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
 
             end = time.time()
@@ -155,11 +144,8 @@ if __name__ == '__main__':
             if are_same != found_same:
                 print('compare ' + pic_a + ' and ' + pic_b)
                 print('result, are they same?', found_same)
-                print("good points:", good_points_number)
                 print('hash_diff:', hash_diff)
-                print(pic_a, hashes[pic_a])
-                print(pic_b, hashes[pic_b])
-                print('')
+                print("good points:", good_points_number)
 
             # print("good points:", good_points_number)
 

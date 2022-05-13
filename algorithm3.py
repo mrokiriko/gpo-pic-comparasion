@@ -83,8 +83,10 @@ if __name__ == '__main__':
     categories = {}
     start_time = time.time()
 
-    # pics = pics[:10]
+    compare_time_sum = 0
+    fill_time_sum = 0
 
+    # pics = pics[:30]
     for pic_a in pics:
         for pic_b in pics:
             category_a = pic_a.split("_")[0]
@@ -92,6 +94,8 @@ if __name__ == '__main__':
             are_same = category_a == category_b
 
             print('compare ' + pic_a + ' and ' + pic_b)
+
+            start = time.time()
 
             if pic_a not in descriptors:
                 keypoints[pic_a], descriptors[pic_a] = get_descriptor_from_file(folder + '/' + pic_a)
@@ -101,11 +105,20 @@ if __name__ == '__main__':
 
             comparisons += 1
 
+            end = time.time()
+            fill_time_sum += end - start
+
+
+            start = time.time()
+
             # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
             good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
             found_same = good_points_number > MATCHES_THRESHOLD
-
             print("good points:", good_points_number)
+
+            end = time.time()
+            compare_time_sum += end - start
+
 
             # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
 
@@ -138,6 +151,8 @@ if __name__ == '__main__':
 
             categories[category_a] = stat
 
+    print('время потраченное на сравнение изображений:', compare_time_sum)
+    print('время потраченное на обработку изображений для заполнения бд:', fill_time_sum)
     print('сравнения похожих изображений:', same_comparisons)
     print('угадал что два изображения похожи:', right_same_comparisons)
     print('не угадал что два изображения похожи:', wrong_same_comparisons)
@@ -146,7 +161,7 @@ if __name__ == '__main__':
     print('угадал что изображения разные:', right_difference_comparisons)
     print('не угадал что изображения разные:', wrong_difference_comparisons)
     print('')
-    print('matches_for_same')
-    print(matches_for_same)
-    print('matches_for_diff')
-    print(matches_for_diff)
+    # print('matches_for_same')
+    # print(matches_for_same)
+    # print('matches_for_diff')
+    # print(matches_for_diff)

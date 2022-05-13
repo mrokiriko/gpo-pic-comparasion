@@ -8,7 +8,7 @@ import numpy as np
 import time
 
 # SIFT algorithm
-# Add phash or histogram for faster time
+# Пытаюсь добавить гистограмму в СИФТ
 
 sift = cv2.SIFT_create()
 # feature matching
@@ -22,6 +22,16 @@ flann = cv2.FlannBasedMatcher(index_params, search_params)
 MIN_RES = 300
 DIST_RATIO = 0.6
 MATCHES_THRESHOLD = 10
+
+
+def get_hist(img):
+    img = cv2.imread(img)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # extract a 3D RGB color histogram from the image,
+    # using 8 bins per channel, normalize, and update
+    # the index
+    hist = cv2.calcHist([img], [0, 1, 2], None, [8, 8, 8], [0, 256, 0, 256, 0, 256])
+    return cv2.normalize(hist, hist).flatten()
 
 
 def get_imagehash(pic):
@@ -85,6 +95,7 @@ if __name__ == '__main__':
     matches_for_diff = []
 
     hashes = {}
+    hists = {}
     keypoints = {}
     descriptors = {}
     categories = {}
@@ -95,7 +106,7 @@ if __name__ == '__main__':
 
     # pics = pics[:50]
     # pics = pics[:30]
-    pics = pics[-30:]
+    # pics = pics[-30:]
     # pics = pics[:20] + pics[-20:]
     # pics = pics[:30]
     for pic_a in pics:
@@ -119,6 +130,12 @@ if __name__ == '__main__':
             if pic_b not in hashes:
                 hashes[pic_b] = get_imagehash(folder + '/' + pic_b)
 
+            if pic_a not in hists:
+                hists[pic_a] = get_hist(folder + '/' + pic_a)
+
+            if pic_b not in hists:
+                hists[pic_b] = get_hist(folder + '/' + pic_b)
+
             end = time.time()
             fill_time_sum += end - start
 
@@ -128,7 +145,7 @@ if __name__ == '__main__':
             found_same = False
             good_points_number = '-'
             hash_diff = abs(hashes[pic_a] - hashes[pic_b])
-
+            hist_compare = cv2.compareHist(hists[pic_a], hists[pic_b], cv2.HISTCMP_BHATTACHARYYA)
 
             # # print('hash_diff:', hash_diff)
             # if hash_diff < 10:
@@ -140,12 +157,12 @@ if __name__ == '__main__':
 
             # if hash_diff < 35:
             # el
-            good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
 
-
-            found_same = good_points_number > MATCHES_THRESHOLD
-            if found_same and hash_diff >= 35:
+            if hist_compare > 0.8:
                 found_same = False
+            else:
+                good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
+                found_same = good_points_number > MATCHES_THRESHOLD
 
                 # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
 
@@ -156,6 +173,7 @@ if __name__ == '__main__':
                 print('compare ' + pic_a + ' and ' + pic_b)
                 print('result, are they same?', found_same)
                 print("good points:", good_points_number)
+                print('hist_compare:', hist_compare)
                 print('hash_diff:', hash_diff)
                 print(pic_a, hashes[pic_a])
                 print(pic_b, hashes[pic_b])
