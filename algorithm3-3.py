@@ -79,7 +79,8 @@ def are_same_descriptors(descriptor_a, descriptor_b):
 
 
 if __name__ == '__main__':
-    folder = 'exact_pics' # sys.argv[1]
+    #folder = 'exact_pics' # sys.argv[1]
+    folder = 'tineye' # sys.argv[1]
 
     pics = listdir(folder)
 
@@ -111,8 +112,10 @@ if __name__ == '__main__':
     # pics = pics[:30]
     for pic_a in pics:
         for pic_b in pics:
-            category_a = pic_a.split("_")[0]
-            category_b = pic_b.split("_")[0]
+            # category_a = pic_a.split("_")[0]
+            # category_b = pic_b.split("_")[0]
+            category_a = pic_a.split(" ")[0]
+            category_b = pic_b.split(" ")[0]
             are_same = category_a == category_b
 
 
