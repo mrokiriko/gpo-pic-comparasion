@@ -54,6 +54,7 @@ https://people.eecs.berkeley.edu/~malik/cs294/lowe-ijcv04.pdf
 задачи - как мы это делали
 
 
+
 не менее 30 страниц
 
 не менее 75% требование по антиплагиату (будут требовать под 80%)
@@ -64,13 +65,25 @@ https://www.researchgate.net/publication/299575969_Performance_Enhancement_of_Pa
 https://dl.acm.org/doi/10.1145/1873951.1874019
 https://bit.mephi.ru/index.php/bit/article/view/1117/1103
 
+ОБРАБОТКА ИЗОБРАЖЕНИЙ В ИНФОРМАЦИОННОЙ БЕЗОПАСНОСТИ, Бурятия 121 страница (https://npo-echelon.ru/doc/BIT-2019.pdf)
+https://www.elibrary.ru/item.asp?id=42457072
 
+Image Matching Using SIFT, SURF, BRIEF and ORB: Performance Comparison for Distorted Images
+https://arxiv.org/ftp/arxiv/papers/1710/1710.02726.pdf
 
+Image Matching
+https://ai.stanford.edu/~syyeung/cvweb/tutorial2.html
 
+Introduction to SIFT( Scale Invariant Feature Transform)
+https://medium.com/data-breach/introduction-to-sift-scale-invariant-feature-transform-65d7f3a72d40
 
+ПОСТРОЕНИЕ SIFT ДЕСКРИПТОРОВ И НАХОЖДЕНИЯ ОСОБЫХ ТОЧЕК НА ИЗОБРАЖЕНИЯХ
+https://cyberleninka.ru/article/n/postroenie-sift-deskriptorov-i-nahozhdenie-osobyh-tochek-na-izobrazheniyah/viewer
 
+Introduction to SIFT (Scale-Invariant Feature Transform)
+https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html
 
-
-
-
-
+Компьютерное зрение и обработка изображений
+Лекция 13
+Детекторы и дескрипторы. Продолжение
+http://edu.mmcs.sfedu.ru/pluginfile.php/36607/mod_resource/content/2/%D0%94%D0%B5%D1%82%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%8B%20%D0%B8%20%D0%B4%D0%B5%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D1%80%D1%8B.%20%D0%A7%D0%B0%D1%81%D1%82%D1%8C%202.pdf

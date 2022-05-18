@@ -7,8 +7,7 @@ import cv2
 import numpy as np
 import time
 
-# SIFT algorithm
-# Add phash or histogram for faster time
+# SIFT algorithm + added PHASH
 
 sift = cv2.SIFT_create()
 # feature matching
@@ -69,7 +68,8 @@ def are_same_descriptors(descriptor_a, descriptor_b):
 
 
 if __name__ == '__main__':
-    folder = 'exact_pics' # sys.argv[1]
+    # folder = 'exact_pics' # sys.argv[1]
+    folder = 'tineye' # sys.argv[1]
 
     pics = listdir(folder)
 
@@ -95,13 +95,15 @@ if __name__ == '__main__':
 
     # pics = pics[:50]
     # pics = pics[:30]
-    pics = pics[-30:]
+    # pics = pics[-30:]
     # pics = pics[:20] + pics[-20:]
     # pics = pics[:30]
     for pic_a in pics:
         for pic_b in pics:
-            category_a = pic_a.split("_")[0]
-            category_b = pic_b.split("_")[0]
+            # category_a = pic_a.split("_")[0]
+            # category_b = pic_b.split("_")[0]
+            category_a = pic_a.split(" ")[0]
+            category_b = pic_b.split(" ")[0]
             are_same = category_a == category_b
 
 
@@ -129,23 +131,27 @@ if __name__ == '__main__':
             good_points_number = '-'
             hash_diff = abs(hashes[pic_a] - hashes[pic_b])
 
+            if hash_diff < 35:
+                # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
+                good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
+                found_same = good_points_number > MATCHES_THRESHOLD
 
             # # print('hash_diff:', hash_diff)
-            # if hash_diff < 10:
+            # if hash_diff < 14:
             #     found_same = True
             # else:
-
+            #     good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
+            #     if found_same > 10:
+            #         found_same = True
             # if hash_diff >= 40:
             #     found_same = False
 
             # if hash_diff < 35:
             # el
-            good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
 
 
-            found_same = good_points_number > MATCHES_THRESHOLD
-            if found_same and hash_diff >= 35:
-                found_same = False
+            # found_same = good_points_number > MATCHES_THRESHOLD
+
 
                 # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
 
@@ -203,6 +209,9 @@ if __name__ == '__main__':
     print('сравнения разных изображений:', difference_comparisons)
     print('угадал что изображения разные:', right_difference_comparisons)
     print('не угадал что изображения разные:', wrong_difference_comparisons)
+    print('')
+    print('categories:')
+    print(categories)
     # print('')
     # print('matches_for_same')
     # print(matches_for_same)

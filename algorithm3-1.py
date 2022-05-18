@@ -8,7 +8,6 @@ import numpy as np
 import time
 
 # SIFT algorithm
-# Add phash or histogram for faster time
 
 sift = cv2.SIFT_create()
 # feature matching
@@ -94,6 +93,8 @@ if __name__ == '__main__':
     compare_time_sum = 0
     fill_time_sum = 0
 
+    results = {}
+
     # pics = pics[:50]
     # pics = pics[:30]
     # pics = pics[-10:]
@@ -115,11 +116,11 @@ if __name__ == '__main__':
             if pic_b not in descriptors:
                 keypoints[pic_b], descriptors[pic_b] = get_descriptor_from_file(folder + '/' + pic_b)
 
-            if pic_a not in hashes:
-                hashes[pic_a] = get_imagehash(folder + '/' + pic_a)
-
-            if pic_b not in hashes:
-                hashes[pic_b] = get_imagehash(folder + '/' + pic_b)
+            # if pic_a not in hashes:
+            #     hashes[pic_a] = get_imagehash(folder + '/' + pic_a)
+            #
+            # if pic_b not in hashes:
+            #     hashes[pic_b] = get_imagehash(folder + '/' + pic_b)
 
             end = time.time()
             fill_time_sum += end - start
@@ -130,13 +131,13 @@ if __name__ == '__main__':
             found_same = False
             good_points_number = '-'
             # hash_diff = '-'
-            hash_diff = abs(hashes[pic_a] - hashes[pic_b])
+            # hash_diff = abs(hashes[pic_a] - hashes[pic_b])
             # # print('hash_diff:', hash_diff)
-            if hash_diff > 40:
-                found_same = False
-            else:
-                good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
-                found_same = good_points_number > MATCHES_THRESHOLD
+            # if hash_diff > 40:
+            #     found_same = False
+            # else:
+            good_points_number = get_good_points(descriptors[pic_a], descriptors[pic_b])
+            found_same = good_points_number > MATCHES_THRESHOLD
 
             # if hash_diff < 35:
                 # found_same = are_same_descriptors(descriptors[pic_a], descriptors[pic_b])
@@ -147,7 +148,7 @@ if __name__ == '__main__':
             if are_same != found_same:
                 print('compare ' + pic_a + ' and ' + pic_b)
                 print('result, are they same?', found_same)
-                print('hash_diff:', hash_diff)
+                # print('hash_diff:', hash_diff)
                 print("good points:", good_points_number)
 
             # print("good points:", good_points_number)
@@ -160,6 +161,12 @@ if __name__ == '__main__':
             if category_a in categories:
                 stat = categories[category_a]
 
+            # if category_a not in results:
+            #     results[category_a] = [
+            #         [0, 0], # Сравнения схожих изображений
+            #         [0, 0]  # Сравнения различных изображений
+            #     ]
+
             if are_same:
                 same_comparisons += 1
                 matches_for_same.append(good_points_number)
@@ -167,9 +174,14 @@ if __name__ == '__main__':
                 if are_same == found_same:
                     right_same_comparisons += 1
                     stat[0] += 1
+
+                    # results[category_a][0][0] += 1
                 else:
                     wrong_same_comparisons += 1
                     stat[1] += 1
+
+                    # results[category_a][0][1] += 1
+
             else:
                 difference_comparisons += 1
                 matches_for_diff.append(good_points_number)
@@ -177,9 +189,13 @@ if __name__ == '__main__':
                 if are_same == found_same:
                     right_difference_comparisons += 1
                     stat[2] += 1
+
+                    # results[category_a][1][0] += 1
                 else:
                     wrong_difference_comparisons += 1
                     stat[3] += 1
+
+                    # results[category_a][1][1] += 1
 
             categories[category_a] = stat
 
@@ -192,7 +208,10 @@ if __name__ == '__main__':
     print('сравнения разных изображений:', difference_comparisons)
     print('угадал что изображения разные:', right_difference_comparisons)
     print('не угадал что изображения разные:', wrong_difference_comparisons)
-    # print('')
+    print('')
+    print('categories:')
+    print(categories)
+
     # print('matches_for_same')
     # print(matches_for_same)
     # print('matches_for_diff')

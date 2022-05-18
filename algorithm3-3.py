@@ -118,7 +118,6 @@ if __name__ == '__main__':
             category_b = pic_b.split(" ")[0]
             are_same = category_a == category_b
 
-
             start = time.time()
 
             if pic_a not in descriptors:
@@ -126,12 +125,6 @@ if __name__ == '__main__':
 
             if pic_b not in descriptors:
                 keypoints[pic_b], descriptors[pic_b] = get_descriptor_from_file(folder + '/' + pic_b)
-
-            if pic_a not in hashes:
-                hashes[pic_a] = get_imagehash(folder + '/' + pic_a)
-
-            if pic_b not in hashes:
-                hashes[pic_b] = get_imagehash(folder + '/' + pic_b)
 
             if pic_a not in hists:
                 hists[pic_a] = get_hist(folder + '/' + pic_a)
@@ -147,7 +140,6 @@ if __name__ == '__main__':
             start = time.time()
             found_same = False
             good_points_number = '-'
-            hash_diff = abs(hashes[pic_a] - hashes[pic_b])
             hist_compare = cv2.compareHist(hists[pic_a], hists[pic_b], cv2.HISTCMP_BHATTACHARYYA)
 
             # # print('hash_diff:', hash_diff)
@@ -177,7 +169,6 @@ if __name__ == '__main__':
                 print('result, are they same?', found_same)
                 print("good points:", good_points_number)
                 print('hist_compare:', hist_compare)
-                print('hash_diff:', hash_diff)
                 print(pic_a, hashes[pic_a])
                 print(pic_b, hashes[pic_b])
                 print('')
@@ -224,7 +215,9 @@ if __name__ == '__main__':
     print('сравнения разных изображений:', difference_comparisons)
     print('угадал что изображения разные:', right_difference_comparisons)
     print('не угадал что изображения разные:', wrong_difference_comparisons)
-    # print('')
+    print('')
+    print('categories:')
+    print(categories)
     # print('matches_for_same')
     # print(matches_for_same)
     # print('matches_for_diff')
