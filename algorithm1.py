@@ -4,11 +4,13 @@ from os import listdir
 import sys
 import time
 
-# Imagehash algorithm
+# PHASH algorithm
 
 if __name__ == '__main__':
-    folder = sys.argv[1]
-    threshold = int(sys.argv[2])
+    # folder = sys.argv[1]
+    folder = 'exact_pics'
+    # threshold = int(sys.argv[2])
+    threshold = int(sys.argv[1])
 
     pics = listdir(folder)
 
@@ -38,7 +40,7 @@ if __name__ == '__main__':
 
             comparisons += 1
 
-            found_same = abs(hashes[pic_a] - hashes[pic_b]) <= threshold
+            found_same = abs(hashes[pic_a] - hashes[pic_b]) < threshold
 
             stat = [0, 0, 0, 0]
             if category_a in categories:

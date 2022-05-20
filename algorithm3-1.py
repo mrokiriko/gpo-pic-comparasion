@@ -68,8 +68,9 @@ def are_same_descriptors(descriptor_a, descriptor_b):
 
 
 if __name__ == '__main__':
-    # folder = 'exact_pics' # sys.argv[1]
-    folder = 'tineye' # sys.argv[1]
+    folder = 'exact_pics' # sys.argv[1]
+    # folder = 'tineye' # sys.argv[1]
+    MATCHES_THRESHOLD = int(sys.argv[1])
 
     pics = listdir(folder)
 
@@ -100,10 +101,10 @@ if __name__ == '__main__':
     # pics = pics[-10:]
     for pic_a in pics:
         for pic_b in pics:
-            # category_a = pic_a.split("_")[0]
-            # category_b = pic_b.split("_")[0]
-            category_a = pic_a.split(" ")[0]
-            category_b = pic_b.split(" ")[0]
+            category_a = pic_a.split("_")[0]
+            category_b = pic_b.split("_")[0]
+            # category_a = pic_a.split(" ")[0]
+            # category_b = pic_b.split(" ")[0]
             are_same = category_a == category_b
 
             # print('BEGIN compare ' + pic_a + ' and ' + pic_b)
@@ -211,6 +212,7 @@ if __name__ == '__main__':
     print('')
     print('categories:')
     print(categories)
+    print('MATCHES_THRESHOLD:', MATCHES_THRESHOLD)
 
     # print('matches_for_same')
     # print(matches_for_same)

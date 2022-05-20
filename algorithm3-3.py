@@ -8,7 +8,7 @@ import numpy as np
 import time
 
 # SIFT algorithm
-# Пытаюсь добавить гистограмму в СИФТ
+# Добавление гистограммы в SIFT
 
 sift = cv2.SIFT_create()
 # feature matching
@@ -21,7 +21,7 @@ flann = cv2.FlannBasedMatcher(index_params, search_params)
 
 MIN_RES = 300
 DIST_RATIO = 0.6
-MATCHES_THRESHOLD = 10
+MATCHES_THRESHOLD = 8
 
 
 def get_hist(img):
@@ -79,7 +79,7 @@ def are_same_descriptors(descriptor_a, descriptor_b):
 
 
 if __name__ == '__main__':
-    #folder = 'exact_pics' # sys.argv[1]
+    # folder = 'exact_pics' # sys.argv[1]
     folder = 'tineye' # sys.argv[1]
 
     pics = listdir(folder)
@@ -95,7 +95,6 @@ if __name__ == '__main__':
     matches_for_same = []
     matches_for_diff = []
 
-    hashes = {}
     hists = {}
     keypoints = {}
     descriptors = {}
@@ -169,8 +168,6 @@ if __name__ == '__main__':
                 print('result, are they same?', found_same)
                 print("good points:", good_points_number)
                 print('hist_compare:', hist_compare)
-                print(pic_a, hashes[pic_a])
-                print(pic_b, hashes[pic_b])
                 print('')
 
             # print("good points:", good_points_number)
